@@ -14,7 +14,7 @@ using namespace std;
 void print_output(ofstream outputfile, int a[]) {
     int n,i,j;
     for (i=0; i<n;i++){
-        for (j=i*1;j<i*10;j++){
+        for (j=i*10;j<=i*10+9;j++){
             cout << setw(8) << left << a[j];
             outputfile << setw(8) << left << a[j];
         }
@@ -117,17 +117,19 @@ int main() {
     }
     
 
-    int n=2,i;
+    int N,i,j;
+
+    inputfile >> N;
+   
     int a[1000];
     a[0]=1;
     a[1]=1;
-    for (i=2;i<=10*n;i++){
+    for (i=2;i<=10*N;i++){
         a[i]=a[i-1]+a[i-2];
     }
     
   
-    int j;
-    for (i=0; i<n;i++){
+    for (i=0; i<N;i++){
         for (j=i*10;j<=i*10+9;j++){
             cout << setw(8) << left << a[j];
             outputfile << setw(8) << left << a[j];
