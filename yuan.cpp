@@ -13,21 +13,27 @@
 
 using namespace std;
 
-void print_output(ofstream outputfile, int a[]) {
-    int n,i,j;
-    for (i=0; i<n;i++){
+/*void print_output(ofstream &outputfile, int a[], int N) {
+    int i,j;
+    for (i=0; i<N;i++){
         for (j=i*10;j<=i*10+9;j++){
-            cout << setw(8) << left << a[j];
-            outputfile << setw(8) << left << a[j];
+            cout << setw(9) << left << a[j];
+            outputfile << setw(9) << left << a[j];
         }
         cout <<"\n";
         outputfile << "\n";
     }
-} 
+} */
 
-ifstream &open_input(string inputfilename,ifstream &inputfile)
-{
+void print_output(ofstream &outputfile, int f){
+    cout << setw(9) << left << f;
+    outputfile << setw(9) << left <<f;
+}
+
+ifstream &open_input(string inputfilename,ifstream &inputfile,int flag){
+
     ofstream errorfile;
+    int N;
     inputfile.open(inputfilename);
     if (!inputfile.is_open()){
         cout << "Cannot open input file: "
@@ -35,8 +41,20 @@ ifstream &open_input(string inputfilename,ifstream &inputfile)
              << endl;
         errorfile <<"Cannot open input file: "
                   << inputfilename
-                  << endl; 
+                  << endl;
     }
+
+    inputfile >> N;
+    errorfile << N;
+    if (N<1) {
+        cout << "The input N is illegal. "
+             << endl;
+        errorfile << "The input N is illegal. "
+                  << endl; 
+        flag = 1;
+        return(inputfile);
+    }
+    
     return(inputfile);
 }
 
@@ -80,14 +98,15 @@ int main() {
          << endl;
     cout << "I am so cool, that I was also able to write a code " << "\n"
          << "that produces the first N numbers of the Fibonacci sequence." << "\n"
-         << "Here they are:"<< "\n";
+         << "Here they are:"<< "\n"
+         << endl;
     
     // The first 10*N numbers of the Fibonacci sequence.
 
     ifstream inputfile;
     ofstream outputfile, errorfile;
-    string inputfilename, outputfilename, errorfilename;
-    int N,i,j;
+    string inputfilename, outputfilename, errorfilename, Fibonacci;
+    int N,i,j,flag=0;
 
     // Open error file, outputfile, inputfile by calling functions
 
@@ -95,27 +114,38 @@ int main() {
 
     open_output("yuan.out",outputfile);
 
-    open_input("yuan.in", inputfile);
+    open_input("yuan.in", inputfile,flag);
+
+  
+    if (flag == 1)
+    return 0;
+
  
 
     inputfile >> N; 
 
-    int a[1000];
-    a[0]=1;
-    a[1]=1;
-    for (i=2;i<=10*N;i++){
-        a[i]=a[i-1]+a[i-2];
-    }
-    
-  
-    for (i=0; i<N;i++){
-        for (j=i*10;j<=i*10+9;j++){
-            cout << setw(8) << left << a[j];
-            outputfile << setw(8) << left << a[j];
+        
+    int temp=0,f1, f2;
+    f1=1;
+    f2=1;
+    print_output(outputfile,f1);
+    print_output(outputfile,f2);
+   
+    N=2;
+
+    for (i=2;i<10*N;i++){
+        temp=f1+f2;
+        f1=f2;
+        f2=temp;
+        print_output(outputfile,temp);
+        if ((i+1)%10==0 && i>2){
+            cout <<"\n";
+            outputfile << "\n";
         }
-        cout <<"\n";
-        outputfile << "\n";
     }
+       
+   
+    //print_output(outputfile, a, N);
     
     inputfile.close();
     outputfile.close();
