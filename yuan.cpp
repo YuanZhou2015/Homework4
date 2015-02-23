@@ -10,32 +10,52 @@
 #include <iomanip>
 
 using namespace std;
-/*
-void print_output(ofstream, ofstream,string) {
-} */
 
-ifstream open_input(string inputfilename){
+void print_output(ofstream outputfile, int a[]) {
+    int n,i,j;
+    for (i=0; i<n;i++){
+        for (j=i*1;j<i*10;j++){
+            cout << setw(8) << left << a[j];
+            outputfile << setw(8) << left << a[j];
+        }
+        cout <<"\n";
+        outputfile << "\n";
+    }
+} 
+
+/*ifstream open_input(string inputfilename){
     ifstream inputfile;
+    ofstream errorfile;
     inputfile.open(inputfilename.c_str());
     if (!inputfile.is_open() ){
         cout << "Cannot open input file: "
              << inputfilename
              << endl;
+        errorfile <<"Cannot open input file: "
+                  << "yuan.out"
+                  << endl;
         return inputfile;
     }
     
 }
 
-ofstream open_output(string outputfilename, string errorfilename){
+ofstream open_output(string outputfilename){
     ofstream outputfile, errorfile;
     outputfile.open("yuan.out");
     if ( !outputfile.is_open() ){
         cout << "Cannot open output file: "
              << "yuan.out"
              << endl;
+        errorfile <<"Cannot open output file: "
+                  << "yuan.out"
+                  << endl;
         return outputfile;
     }
 
+}
+
+ofstream open_error( string errorfilename){
+    ofstream  errorfile;
     errorfile.open("yuan.err");
     if (!errorfile.is_open() ){
         cout << "Cannot open error file: "
@@ -44,7 +64,8 @@ ofstream open_output(string outputfilename, string errorfilename){
         return errorfile;
     }
 
-}
+}*/
+
 
 int main() {
     ifstream inputfile;
@@ -65,22 +86,41 @@ int main() {
     //ifstream inputfile;
    // inputfile >> N;
    
-   // cout << N;
-    open_output("yuan.out", "yuan.err");
+   // cout << N;*/
+    //open_output("yuan.out");
     
-    inputfile.close();
-    outputfile.close();
-    errorfile.close();*/
 
-    int n=2;
-    int a[10000];
+    int n=2,i;
+    int a[1000];
     a[0]=1;
     a[1]=1;
-    for (int i=2;i<=10*n;i++){
+    for (i=2;i<=10*n;i++){
         a[i]=a[i-1]+a[i-2];
-        cout << a [i] <<"\n";
     }
     
+  
+    outputfile.open("yuan.out");
+    if ( !outputfile.is_open() ){
+        cout << "Cannot open output file: "
+             << "yuan.out"
+             << endl;
+      
+        return 0;
+    }
+
+    int j;
+    for (i=1; i<=n;i++){
+        for (j=i*1;j<=i*10;j++){
+            cout << setw(8) << left << a[j];
+            outputfile << setw(8) << left << a[j];
+        }
+        cout <<"\n";
+        outputfile << "\n";
+    }
+    
+    //inputfile.close();
+    outputfile.close();
+    //errorfile.close();
     return 0;
 
 }
