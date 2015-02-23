@@ -70,6 +70,8 @@ ofstream open_error( string errorfilename){
 int main() {
     ifstream inputfile;
     ofstream outputfile, errorfile;
+    string inputfilename, outputfilename, errorfilename;
+
     cout << "I was able to compile this code using the HPC at the University of Memphis."<< "\n"
          << "When I compiled it there, it did not produce any warning message."<< "\n"
          << "The HPC uses a GNU C++ compiler that can be considered "<< "\n"
@@ -81,13 +83,38 @@ int main() {
     cout << "I am so cool, that I was also able to write a code " << "\n"
          << "that produces the first N numbers of the Fibonacci sequence." << "\n"
          << "Here they are:"<< "\n";
-   /* 
-    open_input ("yuan.in") ;
-    //ifstream inputfile;
-   // inputfile >> N;
-   
-   // cout << N;*/
-    //open_output("yuan.out");
+  
+ 
+    inputfile.open("yuan.in");
+    if (!inputfile.is_open() ){
+        cout << "Cannot open input file: "
+             << inputfilename
+             << endl;
+        errorfile <<"Cannot open input file: "
+                  << "yuan.out"
+                  << endl;
+        return 10;
+    }
+    
+    outputfile.open("yuan.out");
+    if ( !outputfile.is_open() ){
+        cout << "Cannot open output file: "
+             << "yuan.out"
+             << endl;
+        errorfile <<"Cannot open output file: "
+                  << "yuan.out"
+                  << endl;
+        return 20;
+    }
+
+
+    errorfile.open("yuan.err");
+    if (!errorfile.is_open() ){
+        cout << "Cannot open error file: "
+             << "yuan.err"
+             << endl;
+        return 30;
+    }
     
 
     int n=2,i;
@@ -99,18 +126,9 @@ int main() {
     }
     
   
-    outputfile.open("yuan.out");
-    if ( !outputfile.is_open() ){
-        cout << "Cannot open output file: "
-             << "yuan.out"
-             << endl;
-      
-        return 0;
-    }
-
     int j;
-    for (i=1; i<=n;i++){
-        for (j=i*1;j<=i*10;j++){
+    for (i=0; i<n;i++){
+        for (j=i*10;j<=i*10+9;j++){
             cout << setw(8) << left << a[j];
             outputfile << setw(8) << left << a[j];
         }
@@ -118,9 +136,9 @@ int main() {
         outputfile << "\n";
     }
     
-    //inputfile.close();
+    inputfile.close();
     outputfile.close();
-    //errorfile.close();
+    errorfile.close();
     return 0;
 
 }
