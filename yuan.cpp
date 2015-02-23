@@ -1,5 +1,7 @@
 /*Homework 4 
  *GitHub address for this homework: https://github.com/YuanZhou2015/Homework4
+ *Fibonacci sequenc
+ *Learning to use functions
  *by Yuan Zhou
  *Feburary 22, 2015
  */
@@ -23,55 +25,51 @@ void print_output(ofstream outputfile, int a[]) {
     }
 } 
 
-/*ifstream open_input(string inputfilename){
-    ifstream inputfile;
+ifstream &open_input(string inputfilename,ifstream &inputfile)
+{
     ofstream errorfile;
-    inputfile.open(inputfilename.c_str());
-    if (!inputfile.is_open() ){
+    inputfile.open(inputfilename);
+    if (!inputfile.is_open()){
         cout << "Cannot open input file: "
              << inputfilename
              << endl;
         errorfile <<"Cannot open input file: "
-                  << "yuan.out"
-                  << endl;
-        return inputfile;
+                  << inputfilename
+                  << endl; 
     }
-    
+    return(inputfile);
 }
 
-ofstream open_output(string outputfilename){
-    ofstream outputfile, errorfile;
-    outputfile.open("yuan.out");
-    if ( !outputfile.is_open() ){
-        cout << "Cannot open output file: "
-             << "yuan.out"
-             << endl;
-        errorfile <<"Cannot open output file: "
-                  << "yuan.out"
-                  << endl;
-        return outputfile;
-    }
-
-}
-
-ofstream open_error( string errorfilename){
-    ofstream  errorfile;
-    errorfile.open("yuan.err");
+ofstream &open_error( string errorfilename, ofstream &errorfile){
+    errorfile.open(errorfilename);
     if (!errorfile.is_open() ){
         cout << "Cannot open error file: "
-             << "yuan.err"
+             << errorfilename
              << endl;
-        return errorfile;
+        return (errorfile);
     }
 
-}*/
+}
+
+ofstream &open_output( string outputfilename, ofstream &outputfile){
+    ofstream errorfile;
+    outputfile.open(outputfilename);
+    if (!outputfile.is_open() ){
+        cout << "Cannot open output file: "
+             << outputfilename
+             << endl;
+        errorfile <<"Cannot open output file: "
+                  << outputfilename
+                  << endl;
+        return (outputfile);
+    }
+
+}
 
 
 int main() {
-    ifstream inputfile;
-    ofstream outputfile, errorfile;
-    string inputfilename, outputfilename, errorfilename;
 
+    // Message want to print out on terminal
     cout << "I was able to compile this code using the HPC at the University of Memphis."<< "\n"
          << "When I compiled it there, it did not produce any warning message."<< "\n"
          << "The HPC uses a GNU C++ compiler that can be considered "<< "\n"
@@ -83,44 +81,25 @@ int main() {
     cout << "I am so cool, that I was also able to write a code " << "\n"
          << "that produces the first N numbers of the Fibonacci sequence." << "\n"
          << "Here they are:"<< "\n";
-  
- 
-    inputfile.open("yuan.in");
-    if (!inputfile.is_open() ){
-        cout << "Cannot open input file: "
-             << inputfilename
-             << endl;
-        errorfile <<"Cannot open input file: "
-                  << "yuan.out"
-                  << endl;
-        return 10;
-    }
     
-    outputfile.open("yuan.out");
-    if ( !outputfile.is_open() ){
-        cout << "Cannot open output file: "
-             << "yuan.out"
-             << endl;
-        errorfile <<"Cannot open output file: "
-                  << "yuan.out"
-                  << endl;
-        return 20;
-    }
+    // The first 10*N numbers of the Fibonacci sequence.
 
-
-    errorfile.open("yuan.err");
-    if (!errorfile.is_open() ){
-        cout << "Cannot open error file: "
-             << "yuan.err"
-             << endl;
-        return 30;
-    }
-    
-
+    ifstream inputfile;
+    ofstream outputfile, errorfile;
+    string inputfilename, outputfilename, errorfilename;
     int N,i,j;
 
-    inputfile >> N;
-   
+    // Open error file, outputfile, inputfile by calling functions
+
+    open_error("yuan.err",errorfile);
+
+    open_output("yuan.out",outputfile);
+
+    open_input("yuan.in", inputfile);
+ 
+
+    inputfile >> N; 
+
     int a[1000];
     a[0]=1;
     a[1]=1;
