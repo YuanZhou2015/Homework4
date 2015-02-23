@@ -30,10 +30,10 @@ void print_output(ofstream &outputfile, int f){
     outputfile << setw(9) << left <<f;
 }
 
-ifstream &open_input(string inputfilename,ifstream &inputfile,int flag){
+ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N){
 
     ofstream errorfile;
-    int N;
+    //int n;
     inputfile.open(inputfilename);
     if (!inputfile.is_open()){
         cout << "Cannot open input file: "
@@ -42,19 +42,25 @@ ifstream &open_input(string inputfilename,ifstream &inputfile,int flag){
         errorfile <<"Cannot open input file: "
                   << inputfilename
                   << endl;
+        flag = 1;
+        return(inputfile);
     }
+
+    // Check if the N is legal to create the Fibonacci sequence.
 
     inputfile >> N;
     errorfile << N;
+
     if (N<1) {
         cout << "The input N is illegal. "
              << endl;
         errorfile << "The input N is illegal. "
                   << endl; 
         flag = 1;
+
         return(inputfile);
     }
-    
+ 
     return(inputfile);
 }
 
@@ -114,15 +120,14 @@ int main() {
 
     open_output("yuan.out",outputfile);
 
-    open_input("yuan.in", inputfile,flag);
+    open_input("yuan.in", inputfile, flag, N);  
 
-  
+   /* cout << flag << "\n";  
+    cout << N << "\n";*/
+
     if (flag == 1)
     return 0;
 
- 
-
-    inputfile >> N; 
 
         
     int temp=0,f1, f2;
@@ -131,7 +136,7 @@ int main() {
     print_output(outputfile,f1);
     print_output(outputfile,f2);
    
-    N=2;
+
 
     for (i=2;i<10*N;i++){
         temp=f1+f2;
