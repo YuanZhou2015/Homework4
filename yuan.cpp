@@ -14,28 +14,34 @@
 
 using namespace std;
 
-void print_output(ofstream &outputfile, string str){
-    cout << left << str;
-    outputfile << left <<str;
+void print_output(ofstream &outputfile, ofstream &errorfile,string str){
+    string Fibornacci;
+    if (str == Fibornacci){
+       cout << str;
+       outputfile << str;
+    }
+    else {
+        cout << str;
+        errorfile << str;
+    }
 }
 
-void print_error(ofstream &errorfile, string error){
-    cout << error <<endl;
-    errorfile << error <<endl;
-}
 
 ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N){
 
-    ofstream errorfile;
+    ofstream outputfile, errorfile;
+    stringstream ss;
+    string information;
+
     inputfile.open(inputfilename);
+
     errorfile.open("yuan.err");
     if (!inputfile.is_open()){
-        cout << "Cannot open input file: "
-             << inputfilename
-             << endl;
-        errorfile <<"Cannot open input file: "
-                  << inputfilename
-                  << endl;
+        ss << "Cannot open input file: "
+                    << inputfilename
+                    << endl;
+        information = ss.str();
+        print_output(outputfile,errorfile,information);
         flag = 1;
         return(inputfile);
     }
@@ -44,10 +50,10 @@ ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N)
 
     inputfile >> N;
     if (N<1) {
-        cout << "The input N is invalid. "
+        ss << "The input N is invalid. "
              << endl;
-        errorfile << "The input N is invalid. "
-                  << endl;
+        information = ss.str();
+        print_output(outputfile,errorfile,information);
         flag = 1;
         return(inputfile);
     }
@@ -113,13 +119,15 @@ int main() {
     open_input("yuan.in", inputfile, flag, N);  
 
     if (flag == 1)
-    return 0;
-       
+    return 0;   
+
     unsigned long long temp=0,f1, f2;
+    string  Fibonacci;
     stringstream ss;
-    f1=1;
+    ss << "The first " << N*10 <<" numbers of Fibonacci sequence are:" << "\n";
+    f1=0;
     ss << f1 <<" ";
-    string  Fibonacci = ss.str();
+    Fibonacci = ss.str();
     f2=1;
     ss << f2<<" ";;
     Fibonacci = ss.str(); 
@@ -131,11 +139,10 @@ int main() {
         if ((i+1)%10==0 && i>2)
             ss << temp <<"\n";
         else
-            ss << temp<<" ";
-
+            ss << temp<<"  ";
         Fibonacci = ss.str();      
     } 
-    print_output(outputfile,Fibonacci);
+    print_output(outputfile,errorfile, Fibonacci);
    
     inputfile.close();
     outputfile.close();
