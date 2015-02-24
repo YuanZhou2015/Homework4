@@ -13,28 +13,21 @@
 
 using namespace std;
 
-/*void print_output(ofstream &outputfile, int a[], int N) {
-    int i,j;
-    for (i=0; i<N;i++){
-        for (j=i*10;j<=i*10+9;j++){
-            cout << setw(9) << left << a[j];
-            outputfile << setw(9) << left << a[j];
-        }
-        cout <<"\n";
-        outputfile << "\n";
-    }
-} */
-
 void print_output(ofstream &outputfile, int f){
     cout << setw(9) << left << f;
     outputfile << setw(9) << left <<f;
 }
 
+void print_error(ofstream &errorfile, string error){
+    cout << error <<endl;
+    errorfile << error <<endl;
+}
+
 ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N){
 
     ofstream errorfile;
-    //int n;
     inputfile.open(inputfilename);
+    errorfile.open("yuan.err");
     if (!inputfile.is_open()){
         cout << "Cannot open input file: "
              << inputfilename
@@ -49,15 +42,12 @@ ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N)
     // Check if the N is legal to create the Fibonacci sequence.
 
     inputfile >> N;
-    errorfile << N;
-
     if (N<1) {
         cout << "The input N is illegal. "
              << endl;
         errorfile << "The input N is illegal. "
-                  << endl; 
+                  << endl;
         flag = 1;
-
         return(inputfile);
     }
  
@@ -72,12 +62,12 @@ ofstream &open_error( string errorfilename, ofstream &errorfile){
              << endl;
         return (errorfile);
     }
-
 }
 
 ofstream &open_output( string outputfilename, ofstream &outputfile){
     ofstream errorfile;
     outputfile.open(outputfilename);
+    errorfile.open("yuan.err");
     if (!outputfile.is_open() ){
         cout << "Cannot open output file: "
              << outputfilename
@@ -87,13 +77,13 @@ ofstream &open_output( string outputfilename, ofstream &outputfile){
                   << endl;
         return (outputfile);
     }
-
 }
 
 
 int main() {
 
     // Message want to print out on terminal
+
     cout << "I was able to compile this code using the HPC at the University of Memphis."<< "\n"
          << "When I compiled it there, it did not produce any warning message."<< "\n"
          << "The HPC uses a GNU C++ compiler that can be considered "<< "\n"
@@ -114,29 +104,22 @@ int main() {
     string inputfilename, outputfilename, errorfilename, Fibonacci;
     int N,i,j,flag=0;
 
-    // Open error file, outputfile, inputfile by calling functions
+    // Open error file, output file, input file by calling functions
 
     open_error("yuan.err",errorfile);
-
+    errorfile.close();
     open_output("yuan.out",outputfile);
-
+    
     open_input("yuan.in", inputfile, flag, N);  
-
-   /* cout << flag << "\n";  
-    cout << N << "\n";*/
 
     if (flag == 1)
     return 0;
-
-
-        
+       
     int temp=0,f1, f2;
     f1=1;
     f2=1;
     print_output(outputfile,f1);
     print_output(outputfile,f2);
-   
-
 
     for (i=2;i<10*N;i++){
         temp=f1+f2;
@@ -147,11 +130,8 @@ int main() {
             cout <<"\n";
             outputfile << "\n";
         }
-    }
+    } 
        
-   
-    //print_output(outputfile, a, N);
-    
     inputfile.close();
     outputfile.close();
     errorfile.close();
