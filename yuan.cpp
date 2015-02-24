@@ -9,13 +9,14 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 
 using namespace std;
 
-void print_output(ofstream &outputfile, int f){
-    cout << setw(9) << left << f;
-    outputfile << setw(9) << left <<f;
+void print_output(ofstream &outputfile, string str){
+    cout << left << str;
+    outputfile << left <<str;
 }
 
 void print_error(ofstream &errorfile, string error){
@@ -43,9 +44,9 @@ ifstream &open_input(string inputfilename,ifstream &inputfile,int &flag, int &N)
 
     inputfile >> N;
     if (N<1) {
-        cout << "The input N is illegal. "
+        cout << "The input N is invalid. "
              << endl;
-        errorfile << "The input N is illegal. "
+        errorfile << "The input N is invalid. "
                   << endl;
         flag = 1;
         return(inputfile);
@@ -101,37 +102,41 @@ int main() {
 
     ifstream inputfile;
     ofstream outputfile, errorfile;
-    string inputfilename, outputfilename, errorfilename, Fibonacci;
+    string inputfilename, outputfilename, errorfilename;
     int N,i,j,flag=0;
 
     // Open error file, output file, input file by calling functions
 
     open_error("yuan.err",errorfile);
     errorfile.close();
-    open_output("yuan.out",outputfile);
-    
+    open_output("yuan.out",outputfile);    
     open_input("yuan.in", inputfile, flag, N);  
 
     if (flag == 1)
     return 0;
        
-    int temp=0,f1, f2;
+    unsigned long long temp=0,f1, f2;
+    stringstream ss;
     f1=1;
+    ss << f1 <<" ";
+    string  Fibonacci = ss.str();
     f2=1;
-    print_output(outputfile,f1);
-    print_output(outputfile,f2);
+    ss << f2<<" ";;
+    Fibonacci = ss.str(); 
 
     for (i=2;i<10*N;i++){
         temp=f1+f2;
         f1=f2;
         f2=temp;
-        print_output(outputfile,temp);
-        if ((i+1)%10==0 && i>2){
-            cout <<"\n";
-            outputfile << "\n";
-        }
+        if ((i+1)%10==0 && i>2)
+            ss << temp <<"\n";
+        else
+            ss << temp<<" ";
+
+        Fibonacci = ss.str();      
     } 
-       
+    print_output(outputfile,Fibonacci);
+   
     inputfile.close();
     outputfile.close();
     errorfile.close();
